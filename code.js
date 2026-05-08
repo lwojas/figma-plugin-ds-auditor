@@ -7,10 +7,14 @@ const config = {
       "PpmmmhMK3IFksyAVxxTYFh",
       "WJDOd6kqQ8acqBggjFyheD",
       "Xd6bY4RpC9VzTqDshVXiym",
+      "6A6dRXN4kz0vh1KftfhyzB",
     ],
     textStyles: "7k3v61QvXmY0hlVTlGoeGs",
     colorStyles: "5s3SawNMBxneWcUIUnOMXo",
-    deprecatedStyles: ["V19YobUVrX9MhfcNPVC2JA", "7k3v61QvXmY0hlVTlGoeGs"],
+    deprecatedStyles: [
+      // "V19YobUVrX9MhfcNPVC2JA",
+      // "7k3v61QvXmY0hlVTlGoeGs",
+    ],
   },
   scoringWeights: {
     components: 0.4,
@@ -37,11 +41,13 @@ startApp();
 figma.ui.onmessage = async (msg) => {
   if (msg.type === "get-config") {
     const stored = await figma.clientStorage.getAsync("apiKey");
+    // console.log("Getting config", stored);
     config.figmaApiKey = stored || "";
     figma.ui.postMessage({ type: "config-data", config });
   }
 
   if (msg.type === "set-config") {
+    // console.log("Setting config", msg.config);
     await figma.clientStorage.setAsync("apiKey", msg.config.apiKey);
     config.figmaApiKey = msg.config.apiKey;
     config.ignoreCache = msg.config.ignoreCacheFlag;
@@ -277,6 +283,7 @@ async function loadDesignSystemData() {
     // }
   }
   async function fetchFileStyles(fileKey, type) {
+    console.log("Fetching file styles for ", fileKey);
     const response = await fetch(
       `https://api.figma.com/v1/files/${fileKey}/styles`,
       {

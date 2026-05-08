@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "build:code": "esbuild src/code.ts --bundle --outfile=dist/code.js",
+    "build:ui": "esbuild src/ui/ui.ts --bundle --outfile=dist/ui.js",
+    "build:html": "node build-tools/build-ui.js",
+    "build": "npm run build:code && npm run build:ui && npm run build:html"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.125.0",
+    "esbuild": "^0.28.0"
+  }
+}
